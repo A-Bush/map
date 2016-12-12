@@ -1,47 +1,32 @@
+var m = new HMap();
 
-function init(){
-  return [];
+function randW(n){
+  let s = '';
+  let abd ='abcdefghijklmnopqrstuvwxyz0123456789';
+  let aL = abd.length;
+  while(s.length < n)
+  s += abd[Math.random() * aL|0];
+  return s;
 }
 
-function put(m, k, v){
-  let t = Math.floor(k/100);
-  if(m[t] === undefined) {
-    m[t] = [k,v];
-    return;
+function fill500(){
+  for(let i = 0; i < 500000; i++){
+    m.put(randW(10), randW(10));
   }
-
-  let flag = true;
-
-  for(var i = 0; i < m[t].length; i++){
-    if(m[t][i][0] === k) {
-      m[t][i][1] = v;
-      flag = false;
-    }
-  }
-  if(flag) m[t][m[t].length] = [k,v];
+  console.log('filled');
 }
 
-function get(m, k) {
-  let t = Math.floor(k/100);
-  if(m[t] === undefined) return null;
-
-  for(var i = 0; i < m[t].length; i++){
-    if(m[t][i][0] === k) return m[t][i][1];
-  }
-  return null;
+function testPut(key, value){
+  let s,e;
+  s = Date.now();
+  console.log(m.put(key, value));
+  e = Date.now()
+  return (e - s) + ' ms done put';
 }
-
-function testNum(m){
-  for(var i = 0; i < 1000000; i++){
-    let k = Math.floor(Math.random()*1000);
-    let v = "__" + k.toString() + "__";
-    put(m, k, v);
-  }
-}
-
-
-function sort(m){
-  for(var i = 0; i < m.length; i++){
-    m[i].sort((a,b) => a[0] - b[0]);
-  }
+function testGet(value){
+  let s,e;
+  s = Date.now();
+  console.log(m.get(value));
+  e = Date.now()
+  return (e - s) + ' ms done get';
 }
